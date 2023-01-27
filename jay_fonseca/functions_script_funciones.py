@@ -111,7 +111,7 @@ def get_ngrams(text, ngram_from=1, ngram_to=1, n=None, max_features=20000):
     words_freq = [(word, sum_words[0, i]) for word, i in vec.vocabulary_.items()]
     words_freq = sorted(words_freq, key = lambda x: x[1], reverse = True)
    
-    return words_freq[:300]
+    return words_freq[:20]
 
 def get_2ngrams(text, ngram_from=2, ngram_to=2, n=None, max_features=20000):
     
