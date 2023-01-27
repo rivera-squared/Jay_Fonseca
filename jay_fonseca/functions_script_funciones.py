@@ -7,12 +7,14 @@ from nltk.tokenize import word_tokenize
 import re
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
+from spacytextblob.spacytextblob import SpacyTextBlob
 
 # Script para funciones
 #!pip install spacy download es_core_news_sm
+#pip install spacy spacytextblob
 
 nlp = spacy.load('es_core_news_md')
-
+#nlp.add_pipe('spacytextblob')
 stop_words = stopwords.words('spanish')
 
 
@@ -81,6 +83,9 @@ def get_adverbs(text):
     pos = ', '.join([token.text for token in doc if token.pos_ == 'ADV'])
     return pos
 
+def tokenize_words(text):
+    token = word_tokenize(text)
+    return token
 
 
 # Funcion para remover stop words y lowercase SIN LEMATIZAR
@@ -89,6 +94,12 @@ def remove_stopwords(text):
     tokens = word_tokenize(text)
     remove = [token for token in tokens if token not in stop_words]
     return ' '.join(remove)
+
+def obtain_stopwords(text):
+    tokens = word_tokenize(text)
+    remove = [token for token in tokens if token in cw]
+    return ' '.join(remove)
+
 
 # Funcion para obtemer n-grams    
 def get_ngrams(text, ngram_from=1, ngram_to=1, n=None, max_features=20000):
@@ -100,7 +111,7 @@ def get_ngrams(text, ngram_from=1, ngram_to=1, n=None, max_features=20000):
     words_freq = [(word, sum_words[0, i]) for word, i in vec.vocabulary_.items()]
     words_freq = sorted(words_freq, key = lambda x: x[1], reverse = True)
    
-    return words_freq[:10]
+    return words_freq[:300]
 
 def get_2ngrams(text, ngram_from=2, ngram_to=2, n=None, max_features=20000):
     
@@ -111,7 +122,7 @@ def get_2ngrams(text, ngram_from=2, ngram_to=2, n=None, max_features=20000):
     words_freq = [(word, sum_words[0, i]) for word, i in vec.vocabulary_.items()]
     words_freq = sorted(words_freq, key = lambda x: x[1], reverse = True)
    
-    return words_freq[:10]    
+    return words_freq[:5]    
 
 def get_3ngrams(text, ngram_from=3, ngram_to=3, n=None, max_features=20000):
     
@@ -153,3 +164,8 @@ def get_month(date):
 def get_year(date):
     fecha = date.year
     return fecha
+
+def get_polarity(text):
+    doc = nlp(text)
+    polarity = doc._.polarity
+    return polarity

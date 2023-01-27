@@ -2,7 +2,7 @@ from scrapy import Selector
 import requests
 import pandas as pd
 
-pages = list(range(1,405,1))
+pages = list(range(1,10,1))
 puerto_rico = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/puerto-rico/page/' + str(page)
@@ -22,7 +22,7 @@ for page in pages:
 puerto_rico_df = pd.concat(puerto_rico)
 
 # Noticias de Politica
-pages = list(range(1,93,1))
+#pages = list(range(1,93,1))
 politica = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/politica/page/' + str(page)
@@ -41,7 +41,7 @@ for page in pages:
     
 politica_df = pd.concat(politica)    
 
-pages = list(range(1,372,1))
+#pages = list(range(1,372,1))
 gobierno = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/gobierno/page/' + str(page)
@@ -61,7 +61,7 @@ for page in pages:
     
 gobierno_df = pd.concat(gobierno)
 
-pages = list(range(1,32,1))
+#pages = list(range(1,32,1))
 legislatura = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/legislatura/page/' + str(page)
@@ -81,7 +81,7 @@ for page in pages:
 legislatura_df = pd.concat(legislatura)
 
 
-pages = list(range(1,41,1))
+#pages = list(range(1,41,1))
 tribunales = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/tribunales/page/' + str(page)
@@ -101,7 +101,7 @@ for page in pages:
 tribunales_df = pd.concat(tribunales)
 
 
-pages = list(range(1,12,1))
+#pages = list(range(1,12,1))
 cultura = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/cultura/page/' + str(page)
@@ -121,7 +121,7 @@ for page in pages:
 cultura_df = pd.concat(cultura)
 
 
-pages = list(range(1,114,1))
+#pages = list(range(1,114,1))
 salud = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/salud/page/' + str(page)
@@ -140,7 +140,7 @@ for page in pages:
     
 salud_df = pd.concat(salud)
 
-pages = list(range(1,69,1))
+#pages = list(range(1,69,1))
 economia = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/economia/page/' + str(page)
@@ -160,7 +160,7 @@ for page in pages:
 economia_df = pd.concat(economia)
 
 
-pages = list(range(1,57,1))
+#pages = list(range(1,57,1))
 educacion = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/educacion/page/' + str(page)
@@ -181,7 +181,7 @@ educacion_df = pd.concat(educacion)
 
 
 
-pages = list(range(1,54,1))
+#pages = list(range(1,54,1))
 usa = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/estados-unidos/page/' + str(page)
@@ -201,7 +201,7 @@ for page in pages:
 usa_df = pd.concat(usa)
 
 
-pages = list(range(1,19,1))
+#pages = list(range(1,19,1))
 internacional = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/internacional/page/' + str(page)
@@ -221,7 +221,7 @@ for page in pages:
 internacional_df = pd.concat(internacional)
 internacional_df['categoria']  = "Internacional"
 
-pages = list(range(1,8,1))
+#pages = list(range(1,8,1))
 ciencia = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/ciencia/page/' + str(page)
@@ -242,7 +242,7 @@ ciencia_df = pd.concat(ciencia)
 ciencia_df['categoria'] ='Ciencia'
 
 
-pages = list(range(1,4,1))
+#pages = list(range(1,4,1))
 deportes = []
 for page in pages:    
     url = 'https://jayfonseca.com/category/deportes/page/' + str(page)
@@ -278,12 +278,26 @@ jf = jf.append(deportes_df)
 jf['fecha'] = pd.to_datetime(jf['fecha'], dayfirst = True)
 jf = jf.sort_values(by ='fecha', ascending = False)
 
-jf.to_csv('jay_fonseca_completo.csv', index = False)
 
+df = pd.read_csv('jay_fonseca_completo.csv')
+df['fecha']=pd.to_datetime(df['fecha'])
+df=df.sort_values(by=['fecha'], ascending=False)
+categorias = list(jf.categoria.unique())
 
+alpha=[]
+for categoria in categorias:
+    x = df[df['categoria'] == categoria]
+    y = jf[jf['categoria'] == categoria]
+    z=x.append(y)
+    alpha.append(z)
 
+alpha=pd.concat(alpha)    
+    
+    
+    
+df = df.append(jf)
 
-
+#alpha.to_csv('jay_fonseca_completo.csv', index = False)
 
 
 
