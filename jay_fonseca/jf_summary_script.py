@@ -39,8 +39,8 @@ def get_summary(text):
     # sort sentence by word occurrences
     sents = sorted(sents, key=lambda x: -x[1])
     # return top 3
-    sents = sorted(sents[:3], key=lambda x: x[2])
-    #sents = sorted(sents[:10], key=lambda x: x[2])        
+    #sents = sorted(sents[:3], key=lambda x: x[2])
+    sents = sorted(sents[:5], key=lambda x: x[2])        
     # compile them into text
     summary_text = ""
     for sent in sents:

@@ -122,7 +122,7 @@ def get_2ngrams(text, ngram_from=2, ngram_to=2, n=None, max_features=20000):
     words_freq = [(word, sum_words[0, i]) for word, i in vec.vocabulary_.items()]
     words_freq = sorted(words_freq, key = lambda x: x[1], reverse = True)
    
-    return words_freq[:5]    
+    return words_freq[:10]    
 
 def get_3ngrams(text, ngram_from=3, ngram_to=3, n=None, max_features=20000):
     
@@ -133,7 +133,18 @@ def get_3ngrams(text, ngram_from=3, ngram_to=3, n=None, max_features=20000):
     words_freq = [(word, sum_words[0, i]) for word, i in vec.vocabulary_.items()]
     words_freq = sorted(words_freq, key = lambda x: x[1], reverse = True)
    
-    return words_freq[:5]
+    return words_freq[:10]
+
+def get_4ngrams(text, ngram_from=4, ngram_to=4, n=None, max_features=20000):
+    
+    vec = CountVectorizer(ngram_range = (ngram_from, ngram_to), 
+                          max_features = max_features).fit(text)
+    bag_of_words = vec.transform(text)
+    sum_words = bag_of_words.sum(axis = 0) 
+    words_freq = [(word, sum_words[0, i]) for word, i in vec.vocabulary_.items()]
+    words_freq = sorted(words_freq, key = lambda x: x[1], reverse = True)
+   
+    return words_freq[:10]
 
 # Funcion para obtener los tfidf
 def get_tfidf(text):
